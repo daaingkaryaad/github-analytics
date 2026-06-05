@@ -3,8 +3,12 @@ package com.githubanalytics.service;
 import com.githubanalytics.client.GithubApiClient;
 import com.githubanalytics.dto.RepoDTO;
 import com.githubanalytics.dto.UserDTO;
+import com.githubanalytics.mapper.GithubMapper;
+import com.githubanalytics.repository.RepoRepository;
+import com.githubanalytics.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,17 +19,30 @@ import java.util.Map;
 public class GithubService {
 
     private final GithubApiClient githubApiClient;
+    private final UserRepository userRepository;
+    private final RepoRepository repoRepository;
 
     public UserDTO getUser(String username) {
-        return githubApiClient.getUser(username);
+        UserDTO user = githubApiClient.getUser(username);
+        userRepository.save(GithubMapper.toEntity(user));
+        return user;
     }
 
+    @Transactional
     public List<RepoDTO> getRepos(String username) {
-        return githubApiClient.getRepos(username);
+        List<RepoDTO> repos = githubApiClient.getRepos(username);
+
+        repoRepository.deleteByOwnerLogin(username);
+        repoRepository.saveAll(
+                repos.stream()
+                        .map(r -> GithubMapper.toEntity(username, r))
+                        .toList());
+
+        return repos;
     }
 
     public Map<String, Object> getStats(String username) {
-        List<RepoDTO> repos = getRepos(username);
+        List<RepoDTO> repos = githubApiClient.getRepos(username);
 
         int totalStars = repos.stream()
                 .mapToInt(RepoDTO::getStars)
@@ -37,6 +54,7 @@ public class GithubService {
                 .forEach(r -> languages.merge(r.getLanguage(), 1L, Long::sum));
 
         RepoDTO topRepo = repos.stream()
+                .filter(r -> !r.isFork())
                 .max((a, b) -> Integer.compare(a.getStars(), b.getStars()))
                 .orElse(null);
 
