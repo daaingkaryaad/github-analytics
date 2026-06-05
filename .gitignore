@@ -1,0 +1,27 @@
+# Frontend
+github-analytics-frontend/node_modules/
+github-analytics-frontend/dist/
+
+# Backend
+github-analytics-backend/target/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Environment
+.env
+.env.local
+application-local.properties
+
+# IntelliJ
+*.iml
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
