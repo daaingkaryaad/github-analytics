@@ -1,6 +1,6 @@
 import type { GitHubUser, GitHubRepo, UserStats } from '../types/github';
 
-const BASE = 'http://localhost:8080/api';
+const BASE = '/api';
 
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}${path}`);
