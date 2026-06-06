@@ -1,5 +1,6 @@
 package com.githubanalytics.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +11,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -18,10 +22,10 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .oauth2Login(oauth2 -> oauth2
-                .defaultSuccessUrl("http://localhost:5173", true)
+                .defaultSuccessUrl(frontendUrl, true)
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("http://localhost:5173")
+                .logoutSuccessUrl(frontendUrl)
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
             );
