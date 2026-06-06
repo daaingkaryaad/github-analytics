@@ -1,5 +1,6 @@
 package com.githubanalytics.client;
 
+import com.githubanalytics.dto.CommitDTO;
 import com.githubanalytics.dto.RepoDTO;
 import com.githubanalytics.dto.UserDTO;
 import com.githubanalytics.exception.GithubUserNotFoundException;
@@ -45,4 +46,19 @@ public class GithubApiClient {
                 .collectList()
                 .block();
     }
+
+    @Cacheable(value = "githubCommits", key = "#owner + ':' + #repo")
+    public List<CommitDTO> getCommits(String owner, String repo) {
+        return webClient.get()
+        .uri("/repos/{owner}/{repo}/commits?per_page=100", owner, repo)
+        .headers(h -> {
+                if (!token.isBlank()) {
+                    h.setBearerAuth(token);
+                }
+            })
+            .retrieve()
+            .bodyToFlux(CommitDTO.class)
+            .collectList()
+            .block();
+}
 }

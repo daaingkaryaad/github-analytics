@@ -1,6 +1,7 @@
 package com.githubanalytics.service;
 
 import com.githubanalytics.client.GithubApiClient;
+import com.githubanalytics.dto.CommitDTO;
 import com.githubanalytics.dto.RepoDTO;
 import com.githubanalytics.dto.UserDTO;
 import com.githubanalytics.mapper.GithubMapper;
@@ -40,6 +41,10 @@ public class GithubService {
 
         return repos;
     }
+
+    public List<CommitDTO> getCommits(String username, String repo) {
+        return githubApiClient.getCommits(username, repo);
+}
 
     public Map<String, Object> getStats(String username) {
         List<RepoDTO> repos = githubApiClient.getRepos(username);

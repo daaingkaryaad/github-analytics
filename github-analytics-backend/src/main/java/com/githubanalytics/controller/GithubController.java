@@ -1,5 +1,6 @@
 package com.githubanalytics.controller;
 
+import com.githubanalytics.dto.CommitDTO;
 import com.githubanalytics.dto.RepoDTO;
 import com.githubanalytics.dto.UserDTO;
 import com.githubanalytics.service.GithubService;
@@ -31,4 +32,13 @@ public class GithubController {
     public ResponseEntity<Map<String, Object>> getStats(@PathVariable String username) {
         return ResponseEntity.ok(githubService.getStats(username));
     }
+    @GetMapping("/users/{username}/repos/{repo}/commits")
+    public ResponseEntity<List<CommitDTO>> getCommits(
+        @PathVariable String username,
+        @PathVariable String repo) {
+            
+            return ResponseEntity.ok(
+                githubService.getCommits(username, repo)
+            );
+        }
 }
