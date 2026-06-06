@@ -4,10 +4,11 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Dev: forward /api to the Spring Boot backend so the frontend
-    // can use relative paths (same as the Nginx proxy in production).
     proxy: {
-      '/api': 'http://localhost:8080',
+      '/api':    'http://localhost:8080',
+      '/oauth2': 'http://localhost:8080',
+      '/login':  'http://localhost:8080',
+      '/logout': 'http://localhost:8080',
     },
   },
 });

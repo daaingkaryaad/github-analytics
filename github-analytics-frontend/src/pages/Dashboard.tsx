@@ -37,7 +37,7 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div>
       <div className="max-w-4xl mx-auto px-4 py-12 flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold">GitHub Analytics</h1>
@@ -47,9 +47,7 @@ export function Dashboard() {
         <SearchBar onSearch={handleSearch} loading={loading} />
 
         {error && (
-          <div className="px-4 py-3 bg-red-50 dark:bg-red-900/20 border
-                          border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700
-                          dark:text-red-300">
+          <div className="px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-300">
             {error}
           </div>
         )}
@@ -64,9 +62,7 @@ export function Dashboard() {
                   { label: 'Public repos', value: stats.totalRepos },
                   { label: 'Languages', value: Object.keys(stats.languages).length },
                 ].map(({ label, value }) => (
-                  <div key={label}
-                       className="p-4 bg-white dark:bg-gray-800 rounded-xl text-center
-                                  border border-gray-100 dark:border-gray-700 shadow-sm">
+                  <div key={label} className="p-4 bg-white dark:bg-gray-800 rounded-xl text-center border border-gray-100 dark:border-gray-700 shadow-sm">
                     <div className="text-2xl font-bold">{value}</div>
                     <div className="text-xs text-gray-500 mt-1">{label}</div>
                   </div>
