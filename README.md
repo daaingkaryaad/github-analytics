@@ -235,6 +235,9 @@ The frontend starts on `http://localhost:5173`.
 | `BACKEND_URL` | Backend origin used by the Nginx reverse proxy | Railway production backend |
 
 Docker Compose overrides `BACKEND_URL` with the internal `http://backend:8080` service address.
+On Railway, set `BACKEND_URL` on the frontend service to the backend service's public origin, without a trailing slash. Set `FRONTEND_URL` on the backend service to the frontend's public origin.
+
+The GitHub OAuth App callback URL must be `<FRONTEND_URL>/login/oauth2/code/github`.
 
 ---
 
