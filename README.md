@@ -230,7 +230,11 @@ The frontend starts on `http://localhost:5173`.
 
 **Frontend**
 
-No runtime environment variables required. The Nginx config proxies all backend traffic at container startup.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `BACKEND_URL` | Backend origin used by the Nginx reverse proxy | Railway production backend |
+
+Docker Compose overrides `BACKEND_URL` with the internal `http://backend:8080` service address.
 
 ---
 
